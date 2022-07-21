@@ -1,0 +1,14 @@
+Flow:
+
+enters /authorize
+-> login field + checkbox for info to be added & name of service requesting token/code
+
+User enters credentials -> validate from API
+-> if valid, display user info included in token
+
+-> ok / cancel
+
+Clicks ok
+-> 302 and back to client
+Clicks cancel
+-> 302 without code
