@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import LoginForm from './LoginForm';
+import ConfirmWindow from './ConfirmWindow';
+import { AppContext } from '../state';
 
 function ContentWindow() {
 
-  const [content, setContent] = useState<string>('login');
-
-  const updateContent = (newContent: string) => {
-    setContent(newContent);
-  };
+  const [state] = useContext(AppContext);
 
   return (
     <div id="ContentWindow">
-      <div id="Content" onClick={() => updateContent('login')}>
-        {content === 'login' && <LoginForm />}
+      <div id="Content">
+        {!state.token && <LoginForm />}
+        {state.token && <ConfirmWindow />}
       </div>
     </div>
   );

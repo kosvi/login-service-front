@@ -1,20 +1,26 @@
-import { isLoginResult } from '../utils/validators';
+import { LocalStorage } from '../types';
+import { ApiResult, FailedApiResult } from '../types/API';
+
+import { isLocalStorageContent, isLoginResult } from '../utils/validators';
 import { API } from './API';
 
-const USER_DATA_KEY = 'loggedIn5vUser';
+const USER_DATA_KEY = 'loggedIn5vUserToken';
 
-function storeToken(token: string): void {
-  window.localStorage.setItem(USER_DATA_KEY, token);
+function storeToken(token: string, uid: string): void {
+  window.localStorage.setItem(USER_DATA_KEY, JSON.stringify({ token, uid }));
   loadToken();
 }
 
-function loadToken(): boolean {
-  const token = window.localStorage.getItem(USER_DATA_KEY);
-  if (token) {
-    API.setToken(token);
-    return true;
+function loadToken(): LocalStorage | undefined {
+  const value = window.localStorage.getItem(USER_DATA_KEY);
+  if (value) {
+    const content = JSON.parse(value);
+    if (isLocalStorageContent(content)) {
+      API.setToken(content.token);
+      return content;
+    }
   }
-  return false;
+  return undefined;
 }
 
 function clearToken(): void {
@@ -22,17 +28,13 @@ function clearToken(): void {
   API.removeToken();
 }
 
-async function login(username: string, password: string): Promise<boolean> {
+async function login(username: string, password: string): Promise<ApiResult | FailedApiResult> {
   const result = await API.post('/login', { username, password });
-  if (!result.success) {
-    // login failed
-    return false;
-  }
   if (isLoginResult(result.content)) {
-    storeToken(result.content.token);
-    return true;
+    storeToken(result.content.token, result.content.content.uid);
+    return result;
   }
-  return false;
+  return result;
 }
 
 export const authService = {

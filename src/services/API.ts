@@ -1,4 +1,4 @@
-import { ApiError, ApiResult, FailedApiResult, ZodApiError } from '../types/API';
+import { ApiResult, FailedApiResult, ZodApiError } from '../types/API';
 import { BACKEND_URL } from '../utils/config';
 
 let token: string | undefined = undefined;
@@ -12,25 +12,49 @@ function removeToken(): void {
 }
 
 async function get(path: string): Promise<ApiResult | FailedApiResult> {
+  const fullUrl = `${BACKEND_URL}${path}`;
+  const headers = makeHeaders();
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: headers
+    });
+    const responseJson = await response.json();
+    if (ZodApiError.safeParse(responseJson).success) {
+      return {
+        success: false,
+        content: responseJson
+      };
+    }
+    if (response.status === 200) {
+      return {
+        success: true,
+        content: responseJson
+      };
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        success: false,
+        content: {
+          error: `api failed: ${error.message}`
+        }
+      };
+    }
+  }
   return {
-    success: true,
-    content: {}
+    success: false,
+    content: {
+      error: 'unknown error'
+    }
   };
 }
 
 async function post(path: string, content: unknown): Promise<ApiResult | FailedApiResult> {
   const fullUrl = `${BACKEND_URL}${path}`;
-  let headers;
-  if (token) {
-    headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `bearer ${token}`
-    };
-  } else {
-    headers = {
-      'Content-Type': 'application/json'
-    };
-  }
+  const headers = makeHeaders();
   try {
     const response = await fetch(fullUrl, {
       method: 'POST',
@@ -70,6 +94,21 @@ async function post(path: string, content: unknown): Promise<ApiResult | FailedA
       error: 'unknown error'
     }
   };
+}
+
+function makeHeaders(): HeadersInit {
+  let headers: HeadersInit;
+  if (token) {
+    headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${token}`
+    };
+  } else {
+    headers = {
+      'Content-Type': 'application/json'
+    };
+  }
+  return headers;
 }
 
 export const API = {

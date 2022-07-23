@@ -14,6 +14,19 @@ export const ZodLoginResult = z.object({
 
 export type LoginResult = z.infer<typeof ZodLoginResult>;
 
+export const ZodUserInfo = z.object({
+  uid: z.string(),
+  username: z.string(),
+  name: z.string(),
+  email: z.string(),
+  admin: z.boolean(),
+  locked: z.boolean(),
+  deleted: z.boolean(),
+  created_on: z.date()
+}).strict();
+
+export type UserInfo = z.infer<typeof ZodUserInfo>;
+
 export const ZodApiError = z.object({
   error: z.string()
 });
