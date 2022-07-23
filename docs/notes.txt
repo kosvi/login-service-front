@@ -1,10 +1,13 @@
 Flow:
 
-enters /authorize
--> login field + checkbox for info to be added & name of service requesting token/code
+enters /
 
-User enters credentials -> validate from API
--> if valid, display user info included in token
+if (not logged in)
+-> login field 
+User enters credentials -> validate from API -> API gives token
+
+if (logged in)
+-> display user info and ask what to include in token
 
 -> ok / cancel
 

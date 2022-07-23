@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#Page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#ContentWindow {
+  display: inline-block;
+  width: 500px;
+}
+
+#Menu {
+  margin-bottom: 5px;
+}
+
+.menuButton {
+  cursor: pointer;
+  display: inline-block;
+  background-color: cadetblue;
+  color: black;
+  padding: 2px 5px;
+}
+
+#Content {
+  height: 200px;
+}
