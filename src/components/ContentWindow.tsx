@@ -11,11 +11,7 @@ function ContentWindow() {
 
   return (
     <div id="ContentWindow">
-      <div id="Menu">
-        <div className="menuButton" onClick={() => updateContent('login')}>Login</div>
-        <div className="menuButton" onClick={() => updateContent('none')}>none</div>
-      </div>
-      <div id="Content">
+      <div id="Content" onClick={() => updateContent('login')}>
         {content === 'login' && <LoginForm />}
       </div>
     </div>
