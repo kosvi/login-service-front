@@ -1,14 +1,17 @@
 import React, { useReducer } from 'react';
+import { CodeRequest } from '../types';
 import { Action } from './reducer';
 
 export type State = {
   token: string | undefined,
-  uid: string | undefined
+  uid: string | undefined,
+  request: CodeRequest | undefined
 }
 
 const initialState: State = {
   token: undefined,
-  uid: undefined
+  uid: undefined,
+  request: undefined
 };
 
 // https://reactjs.org/docs/context.html#api
