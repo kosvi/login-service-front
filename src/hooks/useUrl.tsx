@@ -13,7 +13,7 @@ function useUrl() {
       response_type: params.get('response_type'),
       client_id: params.get('client_id'),
       state: params.get('state'),
-      redirect_uri: params.get('redirect_uri'),
+      redirect_uri: decodeURIComponent(params.get('redirect_uri') || ''),
       resource: params.get('resource'),
       code_challenge: params.get('code_challenge'),
       code_challenge_method: params.get('code_challenge_method')

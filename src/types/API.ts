@@ -27,6 +27,21 @@ export const ZodUserInfo = z.object({
 
 export type UserInfo = z.infer<typeof ZodUserInfo>;
 
+export const ZodClientInfo = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  redirect_uri: z.string().url()
+}).strict();
+
+export type ClientInfo = z.infer<typeof ZodClientInfo>;
+
+export const ZodResourceInfo = z.object({
+  id: z.string().uuid(),
+  name: z.string()
+}).strict();
+
+export type ResourceInfo = z.infer<typeof ZodResourceInfo>;
+
 export const ZodApiError = z.object({
   error: z.string()
 });

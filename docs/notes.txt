@@ -15,3 +15,12 @@ Clicks ok
 -> 302 and back to client
 Clicks cancel
 -> 302 without code
+
+
+
+
+
+
+
+Test url: http://localhost:3000/?response_type=code&state=some-long-string&client_id=87aff961-3b64-4089-997c-9a4d889d8114&resource=2c09b248-fbef-4c27-a192-e9f91ca6bd51&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fcallback&code_challenge=foobar&code_challenge_method=S256
+
