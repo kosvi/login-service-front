@@ -12,6 +12,20 @@ function ContentChooser({ userInfo }: { userInfo: UserInfo | undefined }) {
     );
   }
 
+  const writeInfo = (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    console.log(fullInfo);
+    console.log(allowWrite);
+  };
+
+  const cancelSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  /*
+   * This looks like a pile of vomit, but we can fix it later if/when we want to spend time working on UI/UX
+   */
+
   return (
     <div>
       <form>
@@ -22,10 +36,12 @@ function ContentChooser({ userInfo }: { userInfo: UserInfo | undefined }) {
         Following additional information is passed if you choose so:<br />
         name: {userInfo.name}<br />
         email: {userInfo.email}<br />
+        <input type="checkbox" onClick={() => setFullInfo(!fullInfo)} /> yes, include this information<br />
         <br />
         Do you want to also give write access to the resource? <br />
-        allow write access <br />
-        <button>Cancel</button> <button>OK</button>
+        <input type="checkbox" onClick={() => setAllowWrite(!allowWrite)} /> allow write access <br />
+        <br />
+        <button onClick={cancelSubmit}>Cancel</button> <button onClick={writeInfo}>OK</button>
       </form>
     </div>
   );

@@ -61,7 +61,8 @@ function ConfirmWindow() {
   }
 
   return (
-    <div onClick={logout}>
+    <div>
+      <p onClick={logout}>logout</p>
       <h1>Confirm window</h1>
       <RequestInfo clientName={clientInfo?.name || ''} resourceName={resourceName} />
       <ContentChooser userInfo={userInfo} />
