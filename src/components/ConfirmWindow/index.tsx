@@ -7,6 +7,7 @@ import { UserInfo } from '../../types/API';
 import { isClientInfo, isResourceInfo, isUserInfo } from '../../utils/validators';
 import ContentChooser from './ContentChooser';
 import RequestInfo from './RequestInfo';
+import Redirecter from './Redirecter';
 
 function ConfirmWindow() {
 
@@ -14,6 +15,7 @@ function ConfirmWindow() {
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
   const [clientInfo, setClientInfo] = useState<{ name: string, redirect_uri: string } | undefined>(undefined);
   const [resourceName, setResourceName] = useState<string>('');
+  const [redirect, setRedirect] = useState<boolean>(false);
 
   useEffect(() => {
     /*
@@ -44,6 +46,23 @@ function ConfirmWindow() {
     authService.clearToken();
   }
 
+  async function getCode(fullInfo: boolean, allowWrite: boolean) {
+    const body = {
+      user_uid: userInfo?.uid,
+      client_id: state.request?.client_id,
+      resource_id: state.request?.resource,
+      full_info: fullInfo,
+      read_only: !allowWrite
+    };
+    try {
+      const result = await API.post('/codes', body);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+    setRedirect(true);
+  }
+
   if (loading) {
     return (
       <div onClick={logout}>
@@ -60,12 +79,21 @@ function ConfirmWindow() {
     );
   }
 
+  if (redirect) {
+    return (
+      <div>
+        <p onClick={logout}>logout</p>
+        <Redirecter url={clientInfo?.redirect_uri} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <p onClick={logout}>logout</p>
       <h1>Confirm window</h1>
       <RequestInfo clientName={clientInfo?.name || ''} resourceName={resourceName} />
-      <ContentChooser userInfo={userInfo} />
+      <ContentChooser userInfo={userInfo} getCode={getCode} />
     </div>
   );
 }

@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { UserInfo } from '../../types';
 
-function ContentChooser({ userInfo }: { userInfo: UserInfo | undefined }) {
+interface ContentChooserProps {
+  userInfo: UserInfo | undefined,
+  getCode: (fullInfo: boolean, allowWrite: boolean) => Promise<void>
+}
+
+function ContentChooser({ userInfo, getCode }: ContentChooserProps) {
 
   const [fullInfo, setFullInfo] = useState<boolean>(false);
   const [allowWrite, setAllowWrite] = useState<boolean>(false);
@@ -16,6 +21,7 @@ function ContentChooser({ userInfo }: { userInfo: UserInfo | undefined }) {
     event.preventDefault();
     console.log(fullInfo);
     console.log(allowWrite);
+    getCode(fullInfo, allowWrite);
   };
 
   const cancelSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
@@ -30,16 +36,17 @@ function ContentChooser({ userInfo }: { userInfo: UserInfo | undefined }) {
     <div>
       <form>
         Following information is passed to the resource:<br />
+        <br />
         uid: {userInfo.uid}<br />
         username: {userInfo.username}<br />
         <br />
         Following additional information is passed if you choose so:<br />
         name: {userInfo.name}<br />
         email: {userInfo.email}<br />
-        <input type="checkbox" onClick={() => setFullInfo(!fullInfo)} /> yes, include this information<br />
+        <input id="fullInfo" type="checkbox" onClick={() => setFullInfo(!fullInfo)} /><label htmlFor="fullInfo">yes, include this information</label><br />
         <br />
         Do you want to also give write access to the resource? <br />
-        <input type="checkbox" onClick={() => setAllowWrite(!allowWrite)} /> allow write access <br />
+        <input id="allowWrite" type="checkbox" onClick={() => setAllowWrite(!allowWrite)} /><label htmlFor="allowWrite">allow write access</label><br />
         <br />
         <button onClick={cancelSubmit}>Cancel</button> <button onClick={writeInfo}>OK</button>
       </form>
