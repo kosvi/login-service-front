@@ -8,6 +8,7 @@ function Redirecter({ url }: { url: string | undefined }) {
       </div>
     );
   }
+  window.location.replace(url);
   return (
     <div>
       {url}

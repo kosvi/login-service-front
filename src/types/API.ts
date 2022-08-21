@@ -69,3 +69,9 @@ export const ZodCodeRequest = z.object({
 }).strict();
 
 export type CodeRequest = z.infer<typeof ZodCodeRequest>;
+
+export const ZodCodeResponse = z.object({
+  code: z.string()
+}).strict();
+
+export type CodeResponse = z.infer<typeof ZodCodeResponse>;

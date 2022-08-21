@@ -1,4 +1,4 @@
-import { ClientInfo, CodeRequest, LocalStorage, LoginResult, ResourceInfo, UserInfo, ZodClientInfo, ZodCodeRequest, ZodLocalStorage, ZodLoginResult, ZodResourceInfo, ZodUserInfo } from '../types';
+import { ClientInfo, CodeRequest, CodeResponse, LocalStorage, LoginResult, ResourceInfo, UserInfo, ZodClientInfo, ZodCodeRequest, ZodCodeResponse, ZodLocalStorage, ZodLoginResult, ZodResourceInfo, ZodUserInfo } from '../types';
 
 export function isLoginResult(obj: unknown): obj is LoginResult {
   return ZodLoginResult.safeParse(obj).success;
@@ -22,4 +22,8 @@ export function isLocalStorageContent(obj: unknown): obj is LocalStorage {
 
 export function isCodeRequest(obj: unknown): obj is CodeRequest {
   return ZodCodeRequest.safeParse(obj).success;
+}
+
+export function isCodeResponse(obj: unknown): obj is CodeResponse {
+  return ZodCodeResponse.safeParse(obj).success;
 }

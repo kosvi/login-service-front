@@ -4,7 +4,7 @@ import { actions, AppContext } from '../../state';
 
 import { API } from '../../services/API';
 import { UserInfo } from '../../types/API';
-import { isClientInfo, isResourceInfo, isUserInfo } from '../../utils/validators';
+import { isClientInfo, isCodeResponse, isResourceInfo, isUserInfo } from '../../utils/validators';
 import ContentChooser from './ContentChooser';
 import RequestInfo from './RequestInfo';
 import Redirecter from './Redirecter';
@@ -16,6 +16,7 @@ function ConfirmWindow() {
   const [clientInfo, setClientInfo] = useState<{ name: string, redirect_uri: string } | undefined>(undefined);
   const [resourceName, setResourceName] = useState<string>('');
   const [redirect, setRedirect] = useState<boolean>(false);
+  const [code, setCode] = useState<string>('');
 
   useEffect(() => {
     /*
@@ -52,11 +53,14 @@ function ConfirmWindow() {
       client_id: state.request?.client_id,
       resource_id: state.request?.resource,
       full_info: fullInfo,
-      read_only: !allowWrite
+      read_only: !allowWrite,
+      code_challenge: state.request?.code_challenge
     };
     try {
       const result = await API.post('/codes', body);
-      console.log(result);
+      if (result.success && isCodeResponse(result.content)) {
+        setCode(result.content.code);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -72,8 +76,10 @@ function ConfirmWindow() {
   }
 
   if (state.request?.redirect_uri !== clientInfo?.redirect_uri) {
+    console.log(state.request?.redirect_uri, clientInfo?.redirect_uri);
     return (
       <div>
+        <p onClick={logout}>logout</p>
         Mismatch in redirect url - will not process request
       </div>
     );
@@ -83,7 +89,7 @@ function ConfirmWindow() {
     return (
       <div>
         <p onClick={logout}>logout</p>
-        <Redirecter url={clientInfo?.redirect_uri} />
+        <Redirecter url={`${clientInfo?.redirect_uri}?code=${code}&state=${state.request?.state}`} />
       </div>
     );
   }
