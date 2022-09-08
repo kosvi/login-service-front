@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+export const ZodRegisterContent = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  username: z.string(),
+  password: z.string()
+}).strict();
+
+export type RegisterContent = z.infer<typeof ZodRegisterContent>
+
 export const ZodLoginResult = z.object({
   token: z.string(),
   content: z.object({

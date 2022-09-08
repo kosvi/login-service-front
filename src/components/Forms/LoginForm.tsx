@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { authService } from '../services/authService';
-import { actions, AppContext } from '../state';
-import { isLoginResult } from '../utils/validators';
+import { authService } from '../../services/authService';
+import { actions, AppContext } from '../../state';
+import { isLoginResult } from '../../utils/validators';
 
 function LoginForm() {
 

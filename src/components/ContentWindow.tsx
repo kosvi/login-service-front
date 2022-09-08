@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import LoginForm from './LoginForm';
+import Forms from './Forms';
 import ConfirmWindow from './ConfirmWindow';
 import { AppContext } from '../state';
 
@@ -10,7 +10,7 @@ function ContentWindow() {
   return (
     <div id="ContentWindow">
       <div id="Content">
-        {!state.token && <LoginForm />}
+        {!state.token && <Forms />}
         {state.token && <ConfirmWindow />}
       </div>
     </div>

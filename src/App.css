@@ -20,6 +20,12 @@ h1 {
   width: 500px;
 }
 
+.MenuLink {
+  margin: 0.4em;
+  color: blue;
+  cursor: pointer;
+}
+
 #Content {
   height: 200px;
 }

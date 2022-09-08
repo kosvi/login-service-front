@@ -1,4 +1,4 @@
-import { ClientInfo, CodeRequest, CodeResponse, LocalStorage, LoginResult, ResourceInfo, UserInfo, ZodClientInfo, ZodCodeRequest, ZodCodeResponse, ZodLocalStorage, ZodLoginResult, ZodResourceInfo, ZodUserInfo } from '../types';
+import { ClientInfo, CodeRequest, CodeResponse, LocalStorage, LoginResult, RegisterContent, ResourceInfo, UserInfo, ZodClientInfo, ZodCodeRequest, ZodCodeResponse, ZodLocalStorage, ZodLoginResult, ZodRegisterContent, ZodResourceInfo, ZodUserInfo } from '../types';
 
 export function isLoginResult(obj: unknown): obj is LoginResult {
   return ZodLoginResult.safeParse(obj).success;
@@ -26,4 +26,8 @@ export function isCodeRequest(obj: unknown): obj is CodeRequest {
 
 export function isCodeResponse(obj: unknown): obj is CodeResponse {
   return ZodCodeResponse.safeParse(obj).success;
+}
+
+export function isRegisterContent(obj: unknown): obj is RegisterContent {
+  return ZodRegisterContent.safeParse(obj).success;
 }
