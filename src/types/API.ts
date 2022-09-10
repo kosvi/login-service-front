@@ -1,13 +1,29 @@
 import { z } from 'zod';
 
-export const ZodRegisterContent = z.object({
+export const ZodRegisterRequestBody = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
-  username: z.string(),
-  password: z.string()
+  username: z.string({
+    required_error: 'username required'
+  }),
+  password: z.string({
+    required_error: 'password required'
+  })
 }).strict();
 
-export type RegisterContent = z.infer<typeof ZodRegisterContent>
+export type RegisterRequestBody = z.infer<typeof ZodRegisterRequestBody>;
+
+export const ZodRegisterResult = z.object({
+  uid: z.string().uuid(),
+  username: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  admin: z.boolean(),
+  locked: z.boolean(),
+  deleted: z.boolean()
+});
+
+export type RegisterResult = z.infer<typeof ZodRegisterResult>;
 
 export const ZodLoginResult = z.object({
   token: z.string(),

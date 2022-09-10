@@ -20,10 +20,15 @@ h1 {
   width: 500px;
 }
 
+#MenuLinkBar {
+  margin-bottom: 1em;
+}
+
 .MenuLink {
   margin: 0.4em;
   color: blue;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 #Content {

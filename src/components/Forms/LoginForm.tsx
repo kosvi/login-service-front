@@ -29,7 +29,9 @@ function LoginForm() {
   return (
     <div className="App">
       <form>
+        Username:<br />
         <input type="text" value={username} onChange={updateUsername} /> <br />
+        Password:<br />
         <input type="password" value={password} onChange={updatePassword} /> <br />
         <button onClick={submit}>login</button>
       </form>

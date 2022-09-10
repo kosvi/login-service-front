@@ -8,7 +8,7 @@ function Forms() {
 
   return (
     <div>
-      <div>
+      <div id="MenuLinkBar">
         <span className="MenuLink" onClick={() => setSelectedForm(1)}>Login</span>
         <span className="MenuLink" onClick={() => setSelectedForm(2)}>Register</span>
       </div>
